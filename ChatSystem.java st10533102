@@ -1,0 +1,108 @@
+/*
+}
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ */
+
+package com.mycompany.chatsystem;
+
+import java.util.Scanner;
+import java.util.regex.Pattern;
+
+public class ChatSystem {
+
+    static String storedUsername;
+    static String storedPassword;
+    static String firstName;
+    static String lastName;
+
+    // 1. Username check https://youtu.be/b9uAoYGg6-M?si=HLnw3picmAmPKVc9
+    public static boolean checkUserName(String username) {
+        return username.contains("_") && username.length() <= 5;
+    }
+
+    // 2. Password complexity check
+    public static boolean checkPasswordComplexity(String password) {
+        String regex = "^(?=.*[A-Z])(?=.*[0-9])(?=.*[@#$%^&+=!]).{8,}$";
+        return Pattern.matches(regex, password);
+    }
+
+    // 3. Cellphone check 
+    public static boolean checkCellPhoneNumber(String phone) {
+        String regex = "^\\+27[0-9]{9}$";
+        return Pattern.matches(regex, phone);
+    }
+
+    // 4. Register user
+    public static String registerUser(String username, String password, String phone) {
+
+        if (!checkUserName(username)) {
+            return "Username is not correctly formatted; please ensure that your username contains an underscore and is no more than five characters in length.";
+        }
+
+        if (!checkPasswordComplexity(password)) {
+            return "Password is not correctly formatted; please ensure that the password contains at least eight characters, a capital letter, a number, and a special character.";
+        }
+
+        if (!checkCellPhoneNumber(phone)) {
+            return "Cell phone number incorrectly formatted or does not contain international code.";
+        }
+
+        // Store details if all correct
+        storedUsername = username;
+        storedPassword = password;
+
+        return "User has been registered successfully.";
+    }
+
+    //  Login check
+    public static boolean loginUser(String username, String password) {
+        return username.equals(storedUsername) && password.equals(storedPassword);
+    }
+
+    //  Return login message
+    public static String returnLoginStatus(boolean loginSuccess) {
+        if (loginSuccess) {
+            return "Welcome " + firstName + ", " + lastName + " it is great to see you again.";
+        } else {
+            return "Username or password incorrect, please try again.";
+        }
+    }
+
+    public static void main(String[] args) {
+
+        Scanner input = new Scanner(System.in);
+
+        // ===== REGISTRATION =====
+        System.out.println("=== Register ===");
+
+        System.out.print("Enter username: ");
+        String username = input.nextLine();
+
+        System.out.print("Enter password: ");
+        String password = input.nextLine();
+
+        System.out.print("Enter SA phone (+27...): ");
+        String phone = input.nextLine();
+
+        System.out.print("Enter first name: ");
+        firstName = input.nextLine();
+
+        System.out.print("Enter last name: ");
+        lastName = input.nextLine();
+
+        String registrationMessage = registerUser(username, password, phone);
+        System.out.println(registrationMessage);
+
+        // ===== LOGIN =====
+        System.out.println("\n=== Login ===");
+
+        System.out.print("Enter username: ");
+        String loginUsername = input.nextLine();
+
+        System.out.print("Enter password: ");
+        String loginPassword = input.nextLine();
+
+        boolean loginSuccess = loginUser(loginUsername, loginPassword);
+        System.out.println(returnLoginStatus(loginSuccess));
+    }
+}
