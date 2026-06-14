@@ -116,8 +116,8 @@ public class ChatSystem {
 
             return "Welcome "
                     + firstName
-                    + ", "
                     + lastName
+                    + ", "
                     + " it is great to see you again.";
         }
 
@@ -189,10 +189,14 @@ public class ChatSystem {
     // =========================
     public String sentMessage() {
 
-        System.out.println("\nChoose Option:");
-        System.out.println("1. Send Message");
-        System.out.println("2. Disregard Message");
-        System.out.println("3. Store Message");
+     System.out.println("\n===== QUICKCHAT MENU =====");
+System.out.println("1. Send Message");
+System.out.println("2. Display Report");
+System.out.println("3. Search By Recipient");
+System.out.println("4. Search By Message ID");
+System.out.println("5. Delete By Hash");
+System.out.println("6. Display Longest Message");
+System.out.println("7. Quit");
 
         int choice = input.nextInt();
         input.nextLine();
@@ -295,7 +299,7 @@ public class ChatSystem {
                     messageText.length() - 250;
 
             System.out.println(
-                    "Message exceeds 250 characters by "
+                    "Message exceeds 250 characters"
                     + extraCharacters
                     + ", please reduce size.");
 
@@ -325,8 +329,8 @@ public class ChatSystem {
         Scanner input = new Scanner(System.in);
 
         // CREATE OBJECT
-        ChatSystem messageObject =
-                new ChatSystem();
+        SendingMessages messageObject =
+        new SendingMessages();
 
         // =========================
         // REGISTER
@@ -341,8 +345,9 @@ public class ChatSystem {
         String password =
                 input.nextLine();
 
+        
         System.out.print(
-                "Enter SA phone (+27...): ");
+                "Enter SA phone number (+27...): ");
 
         String phone =
                 input.nextLine();
@@ -400,7 +405,7 @@ public class ChatSystem {
         if (loginSuccess) {
 
             System.out.println(
-                    "\nWelcome to QuickChat");
+                    "\nWelcome to ChatApp");
 
             System.out.print(
                     "How many messages would "
@@ -423,58 +428,99 @@ public class ChatSystem {
             }
 
             // MENU LOOP
-            int option = 0;
+int option = 0;
 
-            while (option != 3) {
+while (option != 7) {
 
-                System.out.println(
-                        "\n===== QUICKCHAT MENU =====");
+    System.out.println("\n===== QUICKCHAT MENU =====");
+    System.out.println("1. Send Message");
+    System.out.println("2. Display Report");
+    System.out.println("3. Search By Recipient");
+    System.out.println("4. Search By Message ID");
+    System.out.println("5. Delete Message By Hash");
+    System.out.println("6. Display Longest Message");
+    System.out.println("7. Quit");
 
-                System.out.println(
-                        "1. Send Messages");
+    System.out.print("Choose option: ");
+    option = input.nextInt();
+    input.nextLine();
 
-                System.out.println(
-                        "2. Show recently sent messages");
 
-                System.out.println(
-                        "3. Quit");
+              switch (option) {
 
-                System.out.print(
-                        "Choose option: ");
+    case 1:
 
-                option = input.nextInt();
+        messageObject.captureMessage();
 
+        break;
+
+    case 2:
+
+        messageObject.displayReport();
+
+        break;
+
+    case 3:
+
+        System.out.print(
+                "Enter recipient number: ");
+
+        String recipientSearch =
                 input.nextLine();
 
-                switch (option) {
+        messageObject.searchRecipient(
+                recipientSearch);
 
-                    case 1:
+        break;
 
-                        messageObject.captureMessage();
+    case 4:
 
-                        break;
+        System.out.print(
+                "Enter message ID: ");
 
-                    case 2:
+        String idSearch =
+                input.nextLine();
 
-                        System.out.println(
-                                "Recently sent messages "
-                                + "feature coming soon.");
+        messageObject.searchByMessageID(
+                idSearch);
 
-                        break;
+        break;
 
-                    case 3:
+    case 5:
 
-                        System.out.println(
-                                "Exiting QuickChat...");
+        System.out.print(
+                "Enter message hash: ");
 
-                        break;
+        String hashSearch =
+                input.nextLine();
 
-                    default:
+        messageObject.deleteMessageByHash(
+                hashSearch);
 
-                        System.out.println(
-                                "Invalid option.");
+        break;
+
+    case 6:
+
+        System.out.println(
+                "Longest Message: "
+                + messageObject.displayLongestMessage());
+
+        break;
+
+    case 7:
+
+        System.out.println(
+                "Exiting QuickChat...");
+
+        break;
+
+    default:
+
+        System.out.println(
+                "Invalid option.");
+}
+}
                 }
-            }
+            
         }
-    }
 }
